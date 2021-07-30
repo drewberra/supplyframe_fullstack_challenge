@@ -1,0 +1,19 @@
+{
+  "name": "supplyframe_fullstack_challenge",
+  "version": "1.0.0",
+  "description": "Drew Berra's supplyframe fullstack challenge submission.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@personal.github.com:drewberra/supplyframe_fullstack_challenge.git"
+  },
+  "author": "Drew Berra",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "ejs": "^3.1.6"
+  }
+}

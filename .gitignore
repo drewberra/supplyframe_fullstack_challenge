@@ -1,2 +1,5 @@
 # intellij configs
 /.idea
+
+# node modules
+/node_modules
