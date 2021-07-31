@@ -1,15 +1,21 @@
 <div
     id="projectsContainer"
 >
-    <% for (let i=0; i < projects.length; i++) { %>
-        <div>
+    <% for (let i=0; i < projects.length; ++i) { %>
+        <a
+            href="/project/<%= projects[i].id %>/"
+        >
             <h2>
                 <%= projects[i].name  %>
             </h2>
 
             <div>
+                By - <%= projects[i].owner_meta_data.screen_name %>
+            </div>
+
+            <div>
                 <%= projects[i].summary %>
             </div>
-        </div>
+        </a>
     <% } %>
 </div>

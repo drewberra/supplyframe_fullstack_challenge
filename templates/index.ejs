@@ -3,18 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <title>Hackday Projects</title>
+
+    <script>
+        window.onpopstate = function (event) {
+            if (event.state && event.state.projects) {
+                document.getElementById("projectsContainer").innerHTML = event.state.projects;
+            }
+
+            let currentPage = 1;
+            let searchParams = new URLSearchParams(window.location.search);
+            if (searchParams.has("page")) {
+                currentPage = parseInt(searchParams.get("page"));
+            }
+
+            if (currentPage === 1) {
+                document.getElementById("prevPageButton").style.display = "none";
+            }
+            else {
+                document.getElementById("prevPageButton").style.display = "inline-block";
+            }
+        }
+    </script>
 </head>
 <body>
     <%- include("components/projects.ejs") %>
 
+    <script>
+        window.history.replaceState({"projects": document.getElementById("projectsContainer").outerHTML}, "");
+    </script>
+
     <div>
-        <% if (page > 1) { %>
-            <button
-                name="paginationButton"
-            >
-                prev
-            </button>
-        <% } %>
+        <button
+            id="prevPageButton"
+            name="paginationButton"
+            <% if (page === 1) { %>
+                style="display: none"
+            <% } %>
+        >
+            prev
+        </button>
 
         <button
             id="nextPageButton"
@@ -34,15 +61,15 @@
                     currentPage = parseInt(searchParams.get("page"));
                 }
 
-                let pageModifier;
+                let newPage;
                 if (paginationButton.id === "nextPageButton") {
-                    pageModifier = 1;
+                    newPage = currentPage + 1;
                 }
                 else {
-                    pageModifier = -1;
+                    newPage = currentPage - 1;
                 }
 
-                let newPath = `/?page=${currentPage + pageModifier}`;
+                let newPath = `/?page=${newPage}`;
 
                 let xhr = new XMLHttpRequest();
 
@@ -62,9 +89,16 @@
                     else if (xhr.readyState === 4) {
                         console.log("request completed.")
                         if (xhr.status === 200) {
-                            console.log(xhr.response);
-                            // window.history.pushState()
+                            window.history.pushState({"projects": xhr.response}, "", "/?page=" + newPage)
                             document.getElementById("projectsContainer").innerHTML = xhr.response;
+
+                            if (newPage === 1) {
+                                document.getElementById("prevPageButton").style.display = "none";
+                            }
+                            else {
+                                document.getElementById("prevPageButton").style.display = "inline-block";
+                            }
+
                             paginationButton.disabled = false;
                         }
                         else {

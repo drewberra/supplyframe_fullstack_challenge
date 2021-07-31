@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hackday Project: <%= project.name %></title>
+</head>
+<body>
+    <div>
+        <img
+            src="<%= project.image_url %>"
+            alt="project: <%= project.id %> img"
+        />
+
+        <h1>
+            <%= project.name %>
+        </h1>
+    </div>
+
+    <% if (project.tags) {%>
+        <div>
+            <% for (let i=0; i < project.tags.length; ++i) {%>
+                <span>
+                    <%= project.tags[i] %>
+                </span>
+            <% } %>
+        </div>
+    <% } %>
+
+    <div>
+        <h2>
+            Summary:
+        </h2>
+
+        <div>
+            <%= project.summary %>
+        </div>
+    </div>
+
+    <div>
+        <h2>
+            Description:
+        </h2>
+
+        <div>
+            <%= project.description %>
+        </div>
+    </div>
+
+    <div>
+        <span>
+            Num Comments: <%= project.comments %>
+        </span>
+
+        <span>
+            Num Followers: <%= project.followers %>
+        </span>
+    </div>
+
+    <% if (project.relatedProjects) { %>
+        <div>
+            <h3>
+                Related Projects:
+            </h3>
+
+            <div>
+                <% for (let i=0; i < project.relatedProjects.length; ++i) { %>
+                    <a
+                        href="/project/<%= project.relatedProjects[i].id %>/"
+                    >
+                        <h4>
+                            <%= project.relatedProjects[i].name %>
+                        </h4>
+
+                        <div>
+                            <%= project.relatedProjects[i].summary %>
+                        </div>
+                    </a>
+                <% } %>
+            </div>
+        </div>
+    <% } %>
+</body>
+</html>
