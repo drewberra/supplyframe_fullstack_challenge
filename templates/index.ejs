@@ -5,16 +5,84 @@
     <title>Hackday Projects</title>
 </head>
 <body>
-    <% for (let i=0; i < projects.length; i++) { %>
-        <div>
-            <h2>
-                <%= projects[i].name  %>
-            </h2>
+    <%- include("components/projects.ejs") %>
 
-            <div>
-                lorem ipsum
-            </div>
-        </div>
-    <% } %>
+    <div>
+        <% if (page > 1) { %>
+            <button
+                name="paginationButton"
+            >
+                prev
+            </button>
+        <% } %>
+
+        <button
+            id="nextPageButton"
+            name="paginationButton"
+        >
+            next
+        </button>
+
+        <script>
+            let paginationHandler = function (event) {
+                let paginationButton = event.currentTarget;
+                paginationButton.disabled = true;
+
+                let currentPage = 1;
+                let searchParams = new URLSearchParams(window.location.search);
+                if (searchParams.has("page")) {
+                    currentPage = parseInt(searchParams.get("page"));
+                }
+
+                let pageModifier;
+                if (paginationButton.id === "nextPageButton") {
+                    pageModifier = 1;
+                }
+                else {
+                    pageModifier = -1;
+                }
+
+                let newPath = `/?page=${currentPage + pageModifier}`;
+
+                let xhr = new XMLHttpRequest();
+
+                xhr.open("GET", newPath);
+                xhr.setRequestHeader("return_projects_only", "*");
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 1) {
+                        console.log("waiting for server...")
+                    }
+                    else if (xhr.readyState === 2) {
+                        console.log("headers received.");
+                    }
+                    else if (xhr.readyState === 3) {
+                        console.log("loading...")
+                    }
+                    else if (xhr.readyState === 4) {
+                        console.log("request completed.")
+                        if (xhr.status === 200) {
+                            console.log(xhr.response);
+                            // window.history.pushState()
+                            document.getElementById("projectsContainer").innerHTML = xhr.response;
+                            paginationButton.disabled = false;
+                        }
+                        else {
+                            console.log(xhr.status);
+                            console.log(xhr.response);
+                            paginationButton.disabled = false;
+                        }
+                    }
+                }
+
+                xhr.send();
+            };
+
+            let paginationButtons = document.getElementsByName("paginationButton");
+            for (let i = 0; i < paginationButtons.length; ++i) {
+                paginationButtons[i].addEventListener("click", paginationHandler);
+            }
+        </script>
+    </div>
 </body>
 </html>
