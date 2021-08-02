@@ -4,5 +4,8 @@
 # node modules
 /node_modules
 
+# tests output
+/tests_output
+
 # geckodriver log
 geckodriver.log

@@ -1,14 +1,17 @@
 # Supplyframe Fullstack Challenge Submission
 ### By Drew Berra
 
-### Things used for the first time
+-------
+
+### Setup
+1. Clone repo
+2. Navigate into repo
+3. Run 'npm install'
+4. Run 'npm start' to start the server
+
+### Used for the first time in this project
 * EJS
 * Node.js
 * SASS
 * NightWatch
 * Express
-
-### Setup
-1. download the source from github
-2. run npm install to install the required packages
-3. start the server by running - npm start
