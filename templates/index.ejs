@@ -62,7 +62,7 @@
                 let projects = template.content.firstChild;
                 nodeScriptReplace(projects);
 
-                document.getElementById("projectsContainer").replaceWith(projects);
+                document.getElementById("projects-container").replaceWith(projects);
             }
 
             let currentPage = 1;
@@ -72,26 +72,26 @@
             }
 
             if (currentPage === 1) {
-                document.getElementById("prevPageButton").style.display = "none";
+                document.getElementById("prev-page-button").style.display = "none";
             }
             else {
-                document.getElementById("prevPageButton").style.display = "inline-block";
+                document.getElementById("prev-page-button").style.display = "inline-block";
             }
         }
     </script>
 </head>
-<body id="index-body">
+<body>
     <%- include("components/header.ejs") %>
 
     <%- include("components/projects.ejs") %>
 
     <script>
-        window.history.replaceState({"projects": document.getElementById("projectsContainer").outerHTML}, "");
+        window.history.replaceState({"projects": document.getElementById("projects-container").outerHTML}, "");
     </script>
 
     <div>
         <button
-            id="prevPageButton"
+            id="prev-page-button"
             name="paginationButton"
             <% if (page === 1) { %>
                 style="display: none"
@@ -101,7 +101,7 @@
         </button>
 
         <button
-            id="nextPageButton"
+            id="next-page-button"
             name="paginationButton"
         >
             next
@@ -125,7 +125,7 @@
                 }
 
                 let newPage;
-                if (paginationButton.id === "nextPageButton") {
+                if (paginationButton.id === "next-page-button") {
                     newPage = currentPage + 1;
                 }
                 else {
@@ -148,13 +148,13 @@
                             let projects = template.content.firstChild;
                             nodeScriptReplace(projects);
 
-                            document.getElementById("projectsContainer").replaceWith(projects);
+                            document.getElementById("projects-container").replaceWith(projects);
 
                             if (newPage === 1) {
-                                document.getElementById("prevPageButton").style.display = "none";
+                                document.getElementById("prev-page-button").style.display = "none";
                             }
                             else {
-                                document.getElementById("prevPageButton").style.display = "inline-block";
+                                document.getElementById("prev-page-button").style.display = "inline-block";
                             }
 
                             paginationButton.disabled = false;

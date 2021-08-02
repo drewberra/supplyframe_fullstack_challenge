@@ -1,5 +1,5 @@
 <div
-    id="projectsContainer"
+    id="projects-container"
     class="projects-container"
 >
     <% for (let i=0; i < projects.length; ++i) { %>
@@ -30,19 +30,19 @@
             <div class="creation-info">
                 created <%= new Date(projects[i].created * 1000).toLocaleDateString("en-US") %> by <span
                     class="owner"
-                    id="post<%= projects[i].id %>OwnerToolTipContainer"
+                    id="post<%= projects[i].id %>-owner-tooltip-container"
                 >
                     <%= projects[i].owner_meta_data.screen_name %>
 
                     <div
-                        id="post<%= projects[i].id %>OwnerToolTip"
+                        id="post<%= projects[i].id %>-owner-tooltip"
                         class="ownerToolTip"
                     >
                     </div>
 
                     <script>
-                        document.getElementById("post<%= projects[i].id %>OwnerToolTipContainer").addEventListener("mouseover", (event) => {
-                            let toolTip = document.getElementById("post<%= projects[i].id %>OwnerToolTip");
+                        document.getElementById("post<%= projects[i].id %>-owner-tooltip-container").addEventListener("mouseover", (event) => {
+                            let toolTip = document.getElementById("post<%= projects[i].id %>-owner-tooltip");
                             if (toolTip.contains(toolTip.querySelector(".owner-tooltip-body"))) {
                                 return;
                             }
