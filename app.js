@@ -201,7 +201,7 @@ app.get("/user/:id/tooltip/", (req, res) => {
     let userId = req.params.id;
     userId = parseInt(userId);
 
-    // generate the tooltip that displays the owners metadata
+    // generate the tooltip that displays the owners meta data
     if (userId in users) {
         res.render("components/owner_tool_tip.ejs", {
             user: users[userId]

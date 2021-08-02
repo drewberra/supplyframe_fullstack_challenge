@@ -10,9 +10,59 @@
     <title>Hackaday Projects</title>
 
     <script>
+        /**************************************************
+         * reference: https://stackoverflow.com/a/20584396 *
+         *     - nodeScriptReplace()                       *
+         *     - nodeScriptClone()                         *
+         *     - nodeScriptIs()                            *
+         **************************************************/
+
+        function nodeScriptReplace(node) {
+            if (nodeScriptIs(node) === true) {
+                node.parentNode.replaceChild(
+                    nodeScriptClone(node) ,
+                    node
+                );
+            }
+            else {
+                let i = -1;
+                let children = node.childNodes;
+                while ( ++i < children.length ) {
+                    nodeScriptReplace(children[i]);
+                }
+            }
+
+            return node;
+        }
+
+        function nodeScriptClone(node) {
+            let script  = document.createElement("script");
+            script.text = node.innerHTML;
+
+            let i = -1;
+            let attrs = node.attributes;
+            let attr;
+            while (++i < attrs.length) {
+                script.setAttribute(
+                    (attr = attrs[i]).name,
+                    attr.value
+                );
+            }
+            return script;
+        }
+
+        function nodeScriptIs(node) {
+            return node.tagName === 'SCRIPT';
+        }
+
         window.onpopstate = function (event) {
             if (event.state && event.state.projects) {
-                document.getElementById("projectsContainer").innerHTML = event.state.projects;
+                let template = document.createElement("template");
+                template.innerHTML = event.state.projects.trim();
+                let projects = template.content.firstChild;
+                nodeScriptReplace(projects);
+
+                document.getElementById("projectsContainer").replaceWith(projects);
             }
 
             let currentPage = 1;
@@ -30,7 +80,7 @@
         }
     </script>
 </head>
-<body>
+<body id="index-body">
     <%- include("components/header.ejs") %>
 
     <%- include("components/projects.ejs") %>
@@ -92,7 +142,13 @@
                     if (xhr.readyState === 4) {
                         if (xhr.status === 200) {
                             window.history.pushState({"projects": xhr.response}, "", newPath)
-                            document.getElementById("projectsContainer").innerHTML = xhr.response;
+
+                            let template = document.createElement("template");
+                            template.innerHTML = xhr.response.trim();
+                            let projects = template.content.firstChild;
+                            nodeScriptReplace(projects);
+
+                            document.getElementById("projectsContainer").replaceWith(projects);
 
                             if (newPage === 1) {
                                 document.getElementById("prevPageButton").style.display = "none";
