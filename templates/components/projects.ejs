@@ -11,7 +11,9 @@
                 <%= projects[i].name  %>
             </h2>
 
-            <% if (projects[i].tags.length > 0) { %>
+            <% if (projects[i].tags && projects[i].tags.length > 0) { %>
+                <% projects[i].tags.sort((a, b) => {return a.localeCompare(b);}) %>
+
                 <div class="tags">
                     <% for (let j=0; j < projects[i].tags.length; ++j) { %>
                         <span class="tag">
@@ -32,60 +34,47 @@
                 >
                     <%= projects[i].owner_meta_data.screen_name %>
 
-                    <span
+                    <div
                         id="post<%= projects[i].id %>OwnerToolTip"
                         class="ownerToolTip"
                     >
-                    </span>
+                    </div>
 
                     <script>
                         document.getElementById("post<%= projects[i].id %>OwnerToolTipContainer").addEventListener("mouseover", (event) => {
                             let toolTip = document.getElementById("post<%= projects[i].id %>OwnerToolTip");
-                            if (toolTip.innerHTML !== "") {
-                                console.log("Tool tip already populated.");
+                            if (toolTip.contains(toolTip.querySelector(".owner-tooltip-body"))) {
                                 return;
                             }
 
-                            let ownerId = <%= projects[i].owner_id %>;
-
-                            let localUserInfo = JSON.parse(localStorage.getItem("userToolTipInfo"));
+                            let localUserInfo = JSON.parse(sessionStorage.getItem("userToolTipInfo"));
                             if (!localUserInfo) {
                                 localUserInfo = {};
                             }
 
+                            let ownerId = <%= projects[i].owner_id %>;
                             if (ownerId in localUserInfo) {
-                                console.log("Pulling from localStorage.")
                                 toolTip.innerHTML = localUserInfo[ownerId];
                             }
                             else {
-                                console.log("Requesting user info.")
                                 let xhr = new XMLHttpRequest();
-
                                 xhr.open("GET", `/user/${ownerId}/tooltip/`);
 
                                 xhr.onreadystatechange = function () {
-                                    if (xhr.readyState === 1) {
-                                        console.log("waiting for server...")
-                                    }
-                                    else if (xhr.readyState === 2) {
-                                        console.log("headers received.");
-                                    }
-                                    else if (xhr.readyState === 3) {
-                                        console.log("loading...")
-                                    }
-                                    else if (xhr.readyState === 4) {
-                                        console.log("request completed.")
+                                    if (xhr.readyState === 4) {
                                         if (xhr.status === 200) {
                                             toolTip.innerHTML = xhr.response;
                                             localUserInfo[ownerId] = xhr.response;
-                                            localStorage.setItem("userToolTipInfo", JSON.stringify(localUserInfo));
+                                            sessionStorage.setItem("userToolTipInfo", JSON.stringify(localUserInfo));
                                         }
                                         else {
                                             console.log(xhr.status);
                                             console.log(xhr.response);
                                         }
                                     }
-                                }
+                                };
+
+                                xhr.send();
                             }
                         });
                     </script>

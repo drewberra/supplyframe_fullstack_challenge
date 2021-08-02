@@ -25,9 +25,8 @@
 
       .ownerToolTip {
         visibility: hidden;
-        //width: fit-content;
-        //width: -moz-fit-content;
-        width: 250px;
+        width: fit-content;
+        width: -moz-fit-content;
 
         background-color: $bg-color-a;
         border: #00e099 solid 2px;
@@ -41,6 +40,29 @@
 
         position: absolute;
         z-index: 1;
+
+        .owner-tooltip-body {
+          img {
+            max-width: 128px;
+            max-height: 128px;
+            margin-bottom: 5px;
+
+          }
+
+          h3 {
+            margin: 0 0 5px;
+            font-size: $medium-font-size;
+          }
+
+          div {
+            margin-bottom: 5px;
+            white-space: nowrap;
+          }
+
+          div:last-of-type {
+            margin-bottom: 0;
+          }
+        }
       }
 
       .ownerToolTip::after {

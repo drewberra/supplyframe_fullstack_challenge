@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Hackaday Projects</title>
 
     <link rel="stylesheet" href="/styles/index.css">
+    <link rel="stylesheet" href="/styles/header.css">
+
+    <title>Hackaday Projects</title>
 
     <script>
         window.onpopstate = function (event) {
@@ -29,9 +31,7 @@
     </script>
 </head>
 <body>
-    <h1 class="page-title">
-        Hackaday Projects
-    </h1>
+    <%- include("components/header.ejs") %>
 
     <%- include("components/projects.ejs") %>
 
@@ -68,6 +68,12 @@
                     currentPage = parseInt(searchParams.get("page"));
                 }
 
+                let sortBySearch = "";
+                let validSortBy = ["skulls", "newest", "views", "comments", "followers", "updated"];
+                if (searchParams.has("sortby") && validSortBy.includes(searchParams.get("sortby"))) {
+                    sortBySearch = `&sortby=${searchParams.get("sortby")}`;
+                }
+
                 let newPage;
                 if (paginationButton.id === "nextPageButton") {
                     newPage = currentPage + 1;
@@ -76,27 +82,16 @@
                     newPage = currentPage - 1;
                 }
 
-                let newPath = `/?page=${newPage}`;
-
+                let newPath = `/?page=${newPage}${sortBySearch}`;
                 let xhr = new XMLHttpRequest();
 
                 xhr.open("GET", newPath);
                 xhr.setRequestHeader("return_projects_only", "*");
 
                 xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 1) {
-                        console.log("waiting for server...");
-                    }
-                    else if (xhr.readyState === 2) {
-                        console.log("headers received.");
-                    }
-                    else if (xhr.readyState === 3) {
-                        console.log("loading...");
-                    }
-                    else if (xhr.readyState === 4) {
-                        console.log("request completed.")
+                    if (xhr.readyState === 4) {
                         if (xhr.status === 200) {
-                            window.history.pushState({"projects": xhr.response}, "", "/?page=" + newPage)
+                            window.history.pushState({"projects": xhr.response}, "", newPath)
                             document.getElementById("projectsContainer").innerHTML = xhr.response;
 
                             if (newPage === 1) {

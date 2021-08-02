@@ -2,11 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hackday Project: <%= project.name %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
 
     <link rel="stylesheet" href="/styles/project_page.css">
+    <link rel="stylesheet" href="/styles/header.css">
+
+    <title>Hackday Project: <%= project.name %></title>
 </head>
 <body>
+    <%- include("components/header.ejs") %>
+
     <div class="project-key-info-container">
         <div class="page-title-container">
             <% if (project.image_url) { %>
@@ -55,7 +60,10 @@
         </div>
     </div>
 
-    <div class="project-info-section">
+    <div
+        class="project-info-section"
+        id="summary"
+    >
         <h2>
             Summary:
         </h2>
@@ -65,7 +73,10 @@
         </div>
     </div>
 
-    <div class="project-info-section">
+    <div
+        class="project-info-section"
+        id="description"
+    >
         <h2>
             Description:
         </h2>
@@ -75,7 +86,7 @@
         </div>
     </div>
 
-    <% if (project.relatedProjects) { %>
+    <% if (project.relatedProjects.length > 0) { %>
         <div class="related-projects-section">
             <h2>
                 Related Projects:

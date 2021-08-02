@@ -18,7 +18,7 @@ body {
   color: $font-color-a;
 }
 
-h1, h2, div, a, span {
+h1, h2, div, a, span, img {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -35,7 +35,8 @@ span {
 
 %base-project-tags {
   .tag {
-    margin-right: 5px;
+    //margin-right: 5px;
+    margin: 0 5px 5px 0;
     background-color: #00e099;
     color: $font-color-b;
     padding: 5px;

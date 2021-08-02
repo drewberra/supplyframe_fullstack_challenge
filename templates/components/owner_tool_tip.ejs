@@ -1,18 +1,18 @@
-<div>
+<div class="owner-tooltip-body">
     <% if (user.image_url) { %>
         <img
             id="userImg"
             src="<%= user.image_url %>"
-            alt="user: <%= project.id %> img"
+            alt="user: <%= user.id %> img"
         />
     <% } %>
 
-    <div>
-        username: <%= user.username %>
-    </div>
+    <h3>
+        <%= user.screen_name %>
+    </h3>
 
     <div>
-        screen name: <%= user.screen_name %>
+        username: <%= user.username %>
     </div>
 
     <% if (user.location) { %>
@@ -23,11 +23,11 @@
 
     <% if (user.created) { %>
         <div>
-            User since: <%= new Date(user.created * 1000).toLocaleDateString("en-US") %>
+            joined: <%= new Date(user.created * 1000).toLocaleDateString("en-US") %>
         </div>
     <% } %>
 
     <div>
-        followers: <%= user.followers %> | following: <%= user.follwing %> | projects: <%= user.projects %> | skulls: <%= user.skulls %>
+        followers: <%= user.followers %> | following: <%= user.following %> | projects: <%= user.projects %> | skulls: <%= user.skulls %>
     </div>
 </div>
