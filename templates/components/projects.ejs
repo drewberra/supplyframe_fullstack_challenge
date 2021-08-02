@@ -26,7 +26,70 @@
             </div>
 
             <div class="creation-info">
-                created <%= new Date(projects[i].created * 1000).toLocaleDateString("en-US") %> by <%= projects[i].owner_meta_data.screen_name %>
+                created <%= new Date(projects[i].created * 1000).toLocaleDateString("en-US") %> by <span
+                    class="owner"
+                    id="post<%= projects[i].id %>OwnerToolTipContainer"
+                >
+                    <%= projects[i].owner_meta_data.screen_name %>
+
+                    <span
+                        id="post<%= projects[i].id %>OwnerToolTip"
+                        class="ownerToolTip"
+                    >
+                    </span>
+
+                    <script>
+                        document.getElementById("post<%= projects[i].id %>OwnerToolTipContainer").addEventListener("mouseover", (event) => {
+                            let toolTip = document.getElementById("post<%= projects[i].id %>OwnerToolTip");
+                            if (toolTip.innerHTML !== "") {
+                                console.log("Tool tip already populated.");
+                                return;
+                            }
+
+                            let ownerId = <%= projects[i].owner_id %>;
+
+                            let localUserInfo = JSON.parse(localStorage.getItem("userToolTipInfo"));
+                            if (!localUserInfo) {
+                                localUserInfo = {};
+                            }
+
+                            if (ownerId in localUserInfo) {
+                                console.log("Pulling from localStorage.")
+                                toolTip.innerHTML = localUserInfo[ownerId];
+                            }
+                            else {
+                                console.log("Requesting user info.")
+                                let xhr = new XMLHttpRequest();
+
+                                xhr.open("GET", `/user/${ownerId}/tooltip/`);
+
+                                xhr.onreadystatechange = function () {
+                                    if (xhr.readyState === 1) {
+                                        console.log("waiting for server...")
+                                    }
+                                    else if (xhr.readyState === 2) {
+                                        console.log("headers received.");
+                                    }
+                                    else if (xhr.readyState === 3) {
+                                        console.log("loading...")
+                                    }
+                                    else if (xhr.readyState === 4) {
+                                        console.log("request completed.")
+                                        if (xhr.status === 200) {
+                                            toolTip.innerHTML = xhr.response;
+                                            localUserInfo[ownerId] = xhr.response;
+                                            localStorage.setItem("userToolTipInfo", JSON.stringify(localUserInfo));
+                                        }
+                                        else {
+                                            console.log(xhr.status);
+                                            console.log(xhr.response);
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    </script>
+                </span>
             </div>
 
             <div class="meta-data">

@@ -3,6 +3,7 @@
 .project-key-info-container {
   padding: 5px;
   background-color: $bg-color-b;
+  border-radius: 5px;
   margin: 0 0 10px;
 }
 
@@ -39,6 +40,7 @@
 
 %project-info-section {
   margin: 0 0 10px;
+  border-radius: 5px;
 
   h2 {
     font-size: $medium-font-size;
@@ -71,6 +73,7 @@
   width: fit-content;
   width: -moz-fit-content;
   background-color: $bg-color-a;
+  border-radius: 5px;
 
   display: flex;
   flex-wrap: wrap;

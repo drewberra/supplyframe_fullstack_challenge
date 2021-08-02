@@ -17,6 +17,51 @@
     @extend %base-project;
     margin-bottom: 10px;
     width: 100%;
+
+    .owner {
+      position: relative;
+      display: inline-block;
+      border-bottom: 1px dotted $font-color-a;
+
+      .ownerToolTip {
+        visibility: hidden;
+        //width: fit-content;
+        //width: -moz-fit-content;
+        width: 250px;
+
+        background-color: $bg-color-a;
+        border: #00e099 solid 2px;
+        color: $font-color-a;
+        padding: 5px;
+        border-radius: 5px;
+
+        left: 100%;
+        top: 0;
+        margin-left: 10px;
+
+        position: absolute;
+        z-index: 1;
+      }
+
+      .ownerToolTip::after {
+        content: " ";
+        position: absolute;
+        top: 5px;
+        right: 100%;
+        margin-top: -5px;
+        border-width: 7px;
+        border-style: solid;
+        border-color: transparent #00e099 transparent transparent;
+      }
+    }
+
+    .owner:hover {
+      .ownerToolTip {
+        visibility: visible;
+
+        //display: inline-block;
+      }
+    }
   }
 
   .project:last-of-type {

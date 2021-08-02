@@ -1,0 +1,33 @@
+<div>
+    <% if (user.image_url) { %>
+        <img
+            id="userImg"
+            src="<%= user.image_url %>"
+            alt="user: <%= project.id %> img"
+        />
+    <% } %>
+
+    <div>
+        username: <%= user.username %>
+    </div>
+
+    <div>
+        screen name: <%= user.screen_name %>
+    </div>
+
+    <% if (user.location) { %>
+        <div>
+            location: <%= user.location %>
+        </div>
+    <% } %>
+
+    <% if (user.created) { %>
+        <div>
+            User since: <%= new Date(user.created * 1000).toLocaleDateString("en-US") %>
+        </div>
+    <% } %>
+
+    <div>
+        followers: <%= user.followers %> | following: <%= user.follwing %> | projects: <%= user.projects %> | skulls: <%= user.skulls %>
+    </div>
+</div>

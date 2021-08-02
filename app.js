@@ -179,6 +179,15 @@ app.get("/project/:id", async (req, res) => {
     });
 });
 
+app("user/:id/tooltip/", (req, res) => {
+    let projectId = req.params.id;
+
+    console.log(projectId);
+    console.log(typeof projectId);
+
+    projectId = parseInt(projectId);
+});
+
 function getProjectOwnerInfo(ownerId, callback) {
     return new Promise(((resolve, reject) => {
         request.get(`${apiData.apiUrl}/users/${ownerId}?api_key=${apiData.apiKey}`, (err, res2, body) => {
