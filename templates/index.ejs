@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hackday Projects</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Hackaday Projects</title>
+
+    <link rel="stylesheet" href="/styles/index.css">
 
     <script>
         window.onpopstate = function (event) {
@@ -26,6 +29,10 @@
     </script>
 </head>
 <body>
+    <h1 class="page-title">
+        Hackaday Projects
+    </h1>
+
     <%- include("components/projects.ejs") %>
 
     <script>

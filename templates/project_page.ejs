@@ -3,30 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <title>Hackday Project: <%= project.name %></title>
+
+    <link rel="stylesheet" href="/styles/project_page.css">
 </head>
 <body>
-    <div>
-        <img
-            src="<%= project.image_url %>"
-            alt="project: <%= project.id %> img"
-        />
+    <div class="project-key-info-container">
+        <div class="page-title-container">
+            <% if (project.image_url) { %>
+                <img
+                    id="projectImage"
+                    src="<%= project.image_url %>"
+                    alt="project: <%= project.id %> img"
+                />
+            <% } %>
 
-        <h1>
-            <%= project.name %>
-        </h1>
+            <h1>
+                <%= project.name %>
+            </h1>
+        </div>
+
+        <% if (project.tags) {%>
+            <div class="tags">
+                <% for (let i=0; i < project.tags.length; ++i) {%>
+                    <span class="tag">
+                        <%= project.tags[i] %>
+                    </span>
+                <% } %>
+            </div>
+        <% } %>
+
+        <div class="creation-info">
+            created <%= new Date(project.created * 1000).toLocaleString("en-US") %> by <%= project.owner_meta_data.screen_name %>
+        </div>
+
+        <div class="meta-data">
+            <span>
+                views: <%= project.views %>
+            </span>
+
+                <span>
+                comments: <%= project.comments %>
+            </span>
+
+                <span>
+                followers: <%= project.followers %>
+            </span>
+
+                <span>
+                skulls: <%= project.skulls %>
+            </span>
+        </div>
     </div>
 
-    <% if (project.tags) {%>
-        <div>
-            <% for (let i=0; i < project.tags.length; ++i) {%>
-                <span>
-                    <%= project.tags[i] %>
-                </span>
-            <% } %>
-        </div>
-    <% } %>
-
-    <div>
+    <div class="project-info-section">
         <h2>
             Summary:
         </h2>
@@ -36,7 +65,7 @@
         </div>
     </div>
 
-    <div>
+    <div class="project-info-section">
         <h2>
             Description:
         </h2>
@@ -46,32 +75,23 @@
         </div>
     </div>
 
-    <div>
-        <span>
-            Num Comments: <%= project.comments %>
-        </span>
-
-        <span>
-            Num Followers: <%= project.followers %>
-        </span>
-    </div>
-
     <% if (project.relatedProjects) { %>
-        <div>
-            <h3>
+        <div class="related-projects-section">
+            <h2>
                 Related Projects:
-            </h3>
+            </h2>
 
-            <div>
+            <div class="related-projects">
                 <% for (let i=0; i < project.relatedProjects.length; ++i) { %>
                     <a
+                        class="project"
                         href="/project/<%= project.relatedProjects[i].id %>/"
                     >
-                        <h4>
+                        <h3 class="truncated-title">
                             <%= project.relatedProjects[i].name %>
-                        </h4>
+                        </h3>
 
-                        <div>
+                        <div class="truncated-summary">
                             <%= project.relatedProjects[i].summary %>
                         </div>
                     </a>

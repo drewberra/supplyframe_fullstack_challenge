@@ -4,7 +4,9 @@
   "description": "Drew Berra's supplyframe fullstack challenge submission.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "build-css": "sass --watch --no-source-map --style=compressed styles/sass:styles/css"
   },
   "repository": {
     "type": "git",

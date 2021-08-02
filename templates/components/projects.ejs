@@ -1,20 +1,50 @@
 <div
     id="projectsContainer"
+    class="projects-container"
 >
     <% for (let i=0; i < projects.length; ++i) { %>
         <a
             href="/project/<%= projects[i].id %>/"
+            class="project"
         >
             <h2>
                 <%= projects[i].name  %>
             </h2>
 
-            <div>
-                By - <%= projects[i].owner_meta_data.screen_name %>
+            <% if (projects[i].tags.length > 0) { %>
+                <div class="tags">
+                    <% for (let j=0; j < projects[i].tags.length; ++j) { %>
+                        <span class="tag">
+                            <%= projects[i].tags[j] %>
+                        </span>
+                    <% } %>
+                </div>
+            <% } %>
+
+            <div class="summary">
+                <%= projects[i].summary %>
             </div>
 
-            <div>
-                <%= projects[i].summary %>
+            <div class="creation-info">
+                created <%= new Date(projects[i].created * 1000).toLocaleDateString("en-US") %> by <%= projects[i].owner_meta_data.screen_name %>
+            </div>
+
+            <div class="meta-data">
+                <span>
+                    views: <%= projects[i].views %>
+                </span>
+
+                <span>
+                    comments: <%= projects[i].comments %>
+                </span>
+
+                <span>
+                    followers: <%= projects[i].followers %>
+                </span>
+
+                <span>
+                    skulls: <%= projects[i].skulls %>
+                </span>
             </div>
         </a>
     <% } %>

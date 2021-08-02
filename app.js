@@ -26,6 +26,9 @@ apiData.apiKey = process.env.OAUTH_API_KEY;
 apiData.apiUrl = 'https://api.hackaday.io/v1';
 
 let app = express();
+
+app.use("/styles", express.static("styles/css"));
+
 app.set("views", __dirname + "/templates");
 app.set("view engine", "ejs");
 
@@ -39,7 +42,13 @@ app.get("/", (req, res) => {
         page = parseInt(req.query.page);
     }
 
-    request.get(apiData.apiUrl + `/projects?api_key=${apiData.apiKey}&page=${page}`, function (err, res2, body) {
+    let sortBy = "newest";
+    let validSortBy = ["skulls", "newest", "views", "comments", "followers", "updated"];
+    if (req.query.sortby && validSortBy.includes(req.query.sortby)) {
+        sortBy = req.query.sortby;
+    }
+
+    request.get(apiData.apiUrl + `/projects?page=${page}&sortby=${sortBy}&api_key=${apiData.apiKey}`, function (err, res2, body) {
         let bodyData = parseJSON(body);
         if (!bodyData) {
             console.log('\nError parsing bodyData');
@@ -59,8 +68,7 @@ app.get("/", (req, res) => {
         }
 
         if (userIdsToGet.size > 0) {
-            let userInfoUrl = `${apiData.apiUrl}/users/batch?ids=${userIdQueryString.slice(0, -1)}&api_key=${apiData.apiKey}`
-            request.get(userInfoUrl, function (err, res3, body) {
+            request.get(`${apiData.apiUrl}/users/batch?ids=${userIdQueryString.slice(0, -1)}&api_key=${apiData.apiKey}`, function (err, res3, body) {
                 let userResBody = parseJSON(body);
                 if (!userResBody) {
                     console.log('\nError parsing bodyData');
@@ -137,6 +145,23 @@ app.get("/project/:id", async (req, res) => {
             );
         }
 
+        if (projectInfo.owner_id in users) {
+            projectInfo.owner_meta_data = users[projectInfo.owner_id];
+        }
+        else {
+            console.log("hi");
+            promiseArray.push(
+                getProjectOwnerInfo(
+                    projectInfo.owner_id,
+                    function () {
+                        projectInfo.owner_meta_data = users[projectInfo.owner_id];
+
+                        console.log(projectInfo);
+                    }
+                )
+            );
+        }
+
         Promise.all(promiseArray).then(function () {
             let relatedProjectsHash = {};
             for (let i=0; i < relatedProjects.length; ++i) {
@@ -153,6 +178,32 @@ app.get("/project/:id", async (req, res) => {
         })
     });
 });
+
+function getProjectOwnerInfo(ownerId, callback) {
+    return new Promise(((resolve, reject) => {
+        request.get(`${apiData.apiUrl}/users/${ownerId}?api_key=${apiData.apiKey}`, (err, res2, body) => {
+            if (err) {
+                reject(err);
+            }
+
+            let userInfo = parseJSON(body);
+            if (!userInfo) {
+                console.log('\nError parsing bodyData');
+
+                callback();
+
+                resolve(body);
+                return;
+            }
+
+            users[userInfo.id] = userInfo;
+
+            callback();
+
+            resolve(body);
+        });
+    }));
+}
 
 // function that searches for projects by tagName
 // arguments - tagName:str, callback:func

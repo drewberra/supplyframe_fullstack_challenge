@@ -1,0 +1,109 @@
+@import "base";
+
+.project-key-info-container {
+  padding: 5px;
+  background-color: $bg-color-b;
+  margin: 0 0 10px;
+}
+
+.page-title-container {
+  margin: 0 0 10px;
+  display: flex;
+  align-items: flex-start;
+
+  img {
+    max-height: 128px;
+    margin-right: 10px;
+  }
+
+  h1 {
+    @extend %base-page-title;
+    margin: 0;
+  }
+}
+
+.tags {
+  @extend %base-project-tags;
+  margin-bottom: 5px;
+}
+
+.creation-info {
+  font-size: $small-font-size;
+  margin-bottom: 5px;
+}
+
+.meta-data {
+  @extend %base-project-meta-data;
+  margin-bottom: 5px;
+}
+
+%project-info-section {
+  margin: 0 0 10px;
+
+  h2 {
+    font-size: $medium-font-size;
+    margin: 0 0 5px;
+  }
+
+  div {
+    font-size: $small-font-size;
+  }
+}
+
+%project-info-section:last-of-type {
+  margin: 0;
+}
+
+.project-info-section {
+  @extend %project-info-section;
+  padding: 5px;
+  background-color: $bg-color-b;
+}
+
+.related-projects-section {
+  @extend %project-info-section;
+  padding: 5px;
+  background-color: $bg-color-b;
+  overflow-x: hidden;
+}
+
+.related-projects {
+  width: fit-content;
+  width: -moz-fit-content;
+  background-color: $bg-color-a;
+
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: auto;
+  max-height: 500px;
+  padding: 10px 0 0 10px;
+  overflow-x: hidden;
+
+  .project {
+    @extend %base-project;
+    display: inline-block;
+    margin: 0 10px 10px 0;
+    flex: 0 1 calc(20% - 10px);
+    min-width: 200px;
+    height: 100px;
+    white-space: normal;
+    overflow: hidden;
+
+    .truncated-title {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .truncated-summary {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+
+  .project:last-of-type {
+    margin-right: 0;
+  }
+}

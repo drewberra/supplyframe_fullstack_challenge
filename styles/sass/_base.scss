@@ -1,0 +1,114 @@
+$large-font-size: 22px;
+$medium-font-size: 18px;
+$small-font-size: 14px;
+
+$bg-color-a: #01315c;
+$bg-color-b: #0057a3;
+$bg-color-c: #006dcc;
+
+$font-color-a: #e1e8ed;
+$font-color-b: #3a3c3d;
+
+body {
+  margin: 0;
+  padding: 10px;
+
+  font-size: $small-font-size;
+  background-color: $bg-color-a;
+  color: $font-color-a;
+}
+
+h1, h2, div, a, span {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+span {
+  display: inline-block;
+}
+
+%base-page-title {
+  font-size: $large-font-size;
+  color: $font-color-a;
+}
+
+%base-project-tags {
+  .tag {
+    margin-right: 5px;
+    background-color: #00e099;
+    color: $font-color-b;
+    padding: 5px;
+    border-radius: 5px;
+  }
+
+  .tag:last-of-type {
+    margin-right: 0;
+  }
+}
+
+%base-project-meta-data {
+  font-size: $small-font-size;
+
+  span {
+    margin-right: 5px;
+  }
+
+  span::after {
+    content: "|";
+    margin-left: 5px;
+  }
+
+  span:last-of-type {
+    margin-right: 0;
+  }
+
+  span:last-of-type::after {
+    content: "";
+    margin-left: 0;
+  }
+}
+
+%base-project {
+  display: block;
+  padding: 5px;
+
+  background-color: $bg-color-b;
+  color: $font-color-a;
+  text-decoration: none;
+
+  h2, h3 {
+    margin: 0 0 5px;
+    padding: 0;
+    font-size: $medium-font-size;
+  }
+
+  .tags {
+    @extend %base-project-tags;
+  }
+
+  .summary {
+    font-size: $small-font-size;
+  }
+
+  .creation-info {
+    font-size: $small-font-size;
+  }
+
+  .meta-data {
+    @extend %base-project-meta-data;
+  }
+
+  div {
+    margin: 0 0 5px;
+  }
+
+  div:last-of-type {
+    margin-bottom: 0;
+  }
+}
+
+%base-project:hover {
+  cursor: pointer;
+  background-color: $bg-color-c;
+}
